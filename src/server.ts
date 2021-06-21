@@ -4,7 +4,7 @@ import * as protoLoader from '@grpc/proto-loader';
 
 
 
-function appStart() {
+function startServer() {
 
     const PORT = 'localhost:5000'
     const PROTO_PATH = path.resolve(__dirname, './protos/todo.service.proto')
@@ -23,13 +23,18 @@ function appStart() {
     console.log(`Server running at ${PORT}`)
 }
 
-
+const todos = []
 function createTodo (call: any , callback: any) {
-    console.log(call)
+    const todoItem = {
+        'id': todos.length + 1,
+        'text': call.request.text
+    }
+    todos.push(todoItem)
+    callback(null, todoItem)
 }
 
 function readTodos (call: any , callback: any) {
 
 }
 
-appStart()
+startServer()
